@@ -1,0 +1,30 @@
+name: Build Executable
+
+on:
+  push:
+    paths:
+      - "Get-EndOfLife-GUI.ps1"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PowerShell
+        uses: actions/setup-powershell@v2
+        with:
+          pwsh-version: "7.2"
+
+      - name: Compile PowerShell script
+        shell: pwsh
+        run: |
+          ./compile.ps1
+
+      - name: Upload compiled executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-executable
+          path: ./dist/
