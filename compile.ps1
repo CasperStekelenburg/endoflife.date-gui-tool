@@ -19,9 +19,12 @@ if (-not (Test-Path "$pwd\applogo.ico")) {
     exit 1
 }
 
+$OutputDirectory = Join-Path $pwd "dist"
+New-Item -Path $OutputDirectory -ItemType Directory -Force | Out-Null
+
 $ParamSet = @{
     inputFile   = "$pwd\Get-EndOfLife-GUI.ps1"
-    outputFile  = "$pwd\End-of-Life Product Checker.exe"
+    outputFile  = Join-Path $OutputDirectory "End-of-Life Product Checker.exe"
     noConsole   = $true
     iconFile    = "$pwd\applogo.ico"
     title       = "End-of-Life Product Checker"

@@ -752,9 +752,11 @@ function Initialize-MainForm {
                 $Script:StatusLabel.Text = "Exporting to Excel..."
                 $Script:MainForm.Cursor = [System.Windows.Forms.Cursors]::WaitCursor
 
-                Export-ToExcel -FilePath $SaveFileDialog.FileName -PromptToOpen
-
-                $Script:StatusLabel.Text = "Export completed"
+                if (Export-ToExcel -FilePath $SaveFileDialog.FileName -PromptToOpen) {
+                    $Script:StatusLabel.Text = "Export completed"
+                } else {
+                    $Script:StatusLabel.Text = "Export failed"
+                }
                 $Script:MainForm.Cursor = [System.Windows.Forms.Cursors]::Default
             }
         })
