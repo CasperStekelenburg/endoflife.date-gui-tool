@@ -39,5 +39,3 @@ $ParamSet = @{
 get-process $ParamSet.title -ErrorAction SilentlyContinue | Stop-Process -ErrorAction SilentlyContinue
 
 Invoke-ps2exe @ParamSet
-
-. "$pwd\End-of-Life Product Checker.exe"

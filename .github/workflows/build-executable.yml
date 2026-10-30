@@ -15,10 +15,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up PowerShell
-        uses: actions/setup-powershell@v2
-        with:
-          pwsh-version: "7.2"
+      - name: Install ps2exe
+        shell: pwsh
+        run: |
+          Install-Module -Name ps2exe -Scope CurrentUser -Force
 
       - name: Compile PowerShell script
         shell: pwsh
