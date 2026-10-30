@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - "Get-EndOfLife-GUI.ps1"
+      - "compile.ps1"
+      - ".github/workflows/build-executable.yml"
   workflow_dispatch:
 
 jobs:
