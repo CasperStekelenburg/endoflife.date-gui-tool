@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install ps2exe
+        shell: pwsh
+        run: |
+          Install-Module -Name ps2exe -Scope CurrentUser -Force
+
+      - name: Compile PowerShell script
+        shell: pwsh
+        run: |
+          ./compile.ps1
+
+      - name: Determine version
+        id: version
+        shell: pwsh
+        run: |
+          $content = Get-Content Get-EndOfLife-GUI.ps1 -Raw
+          if ($content -match '\$Script:AppVersion\s*=\s*\[version\]"([^"]+)"') {
+            $version = $Matches[1]
+          } else {
+            throw "AppVersion not found in Get-EndOfLife-GUI.ps1"
+          }
+          if ($env:GITHUB_REF_TYPE -eq 'tag') {
+            $tag = $env:GITHUB_REF_NAME
+          } else {
+            $tag = "v$version"
+          }
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+
+      - name: Create release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = '${{ steps.version.outputs.tag }}'
+          $asset = "dist/End-of-Life Product Checker.exe"
+          gh release view $tag 2>$null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag $asset --clobber
+          } else {
+            gh release create $tag $asset --title $tag --generate-notes --target ${{ github.sha }}
+          }

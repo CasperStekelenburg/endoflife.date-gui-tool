@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Windows Forms GUI for End-of-Life product information lookup.
 
@@ -58,7 +58,7 @@ $Script:AboutMenuItem = $null
 #endregion Global Variables
 
 #region Functions
-function Update-ProductFilter {
+function Show-ProductFilter {
     <#
     .SYNOPSIS
         Filters the product list based on the search text.
@@ -613,7 +613,7 @@ function Initialize-MainForm {
     $Script:SearchTextBox.Size = New-Object System.Drawing.Size(400, 23)
     # Wire up search box to filter products as user types
     $Script:SearchTextBox.Add_TextChanged({
-            Update-ProductFilter -SearchText $Script:SearchTextBox.Text
+            Show-ProductFilter -SearchText $Script:SearchTextBox.Text
         })
 
     # Create search panel
@@ -673,7 +673,7 @@ function Initialize-MainForm {
 
             if (Get-ProductList) {
                 # Initialize the filtered products and update the UI
-                Update-ProductFilter -SearchText ""
+                Show-ProductFilter -SearchText ""
                 $Script:GetDetailsButton.Enabled = $true
             } else {
                 $Script:StatusLabel.Text = "Failed to load products"
