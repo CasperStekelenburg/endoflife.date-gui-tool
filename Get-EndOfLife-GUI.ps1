@@ -36,7 +36,7 @@ Add-Type -AssemblyName System.Data
 
 #region Application Information
 $Script:AppName = "End-of-Life Product Checker"
-$Script:AppVersion = [version]"$((Get-Date).Year).$((Get-Date).Month).$((Get-Date).Day).$(Get-Date -Format 'HHmm')"
+$Script:AppVersion = [version]"0000.00.00.0000"
 $Script:AppAuthor = "Casper Stekelenburg"
 $Script:AppEmail = "casper@dutchscriptingguys.com"
 #endregion Application Information
